@@ -10,19 +10,15 @@ public class MyTurtle implements Turtle {
             this.position=position;
             this.angle_deg=angle_deg;
         }
-
         public Point2D getPosition() {
             return position;
         }
-
         public double getAngle_deg() {
             return angle_deg;
         }
-
         public void setPosition(Point2D position) {
             this.position = position;
         }
-
         public void setAngle_deg(double angle_deg) {
             this.angle_deg = angle_deg;
         }
@@ -30,31 +26,29 @@ public class MyTurtle implements Turtle {
     private State state;
     private Stack stack = new Stack();
     private double delta,step;
-
     public void draw(){
-    };
+    }
     public void move(){
         double x = state.getPosition().getX();
         double y = state.getPosition().getY();
-        double new_x = x+Math.cos(state.getAngle_deg())*step;
-        double new_y = y+Math.sin(state.getAngle_deg())*step;
+        double angle = state.getAngle_deg();
+        double new_x = x+Math.cos(angle)*step;
+        double new_y = y+Math.sin(angle)*step;
         state.setPosition(new Point2D.Double(new_x,new_y));
-    };
+    }
     public void turnR(){
         state.setAngle_deg(state.getAngle_deg()-delta);
-    };
+    }
     public void turnL(){
         state.setAngle_deg(state.getAngle_deg()+delta);
-    };
+    }
     public void push(){
         stack.push(state);
-    };
+    }
     public void pop(){
         stack.pop();
-    };
-    public void stay(){
-
-    };
+    }
+    public void stay(){}
     /**
      * initializes the turtle state (and clears the state stack)
      * @param position turtle position
