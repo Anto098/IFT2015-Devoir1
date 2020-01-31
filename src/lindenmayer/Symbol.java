@@ -1,11 +1,18 @@
 package lindenmayer;
 
 public class Symbol {
-    public Symbol(char sym){
+    public Symbol(){this.sym = null;}
+    public Symbol(Character sym){
         this.sym = sym;
     }
-    private char sym;
-    public char getSym() {
+    private Character sym;
+    public Character getSym() {
         return sym;
+    }
+    public void setSym(Character sym) {
+        this.sym = sym;
+    }
+    public String toString(){
+        return sym.toString();
     }
 }
