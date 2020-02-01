@@ -20,19 +20,26 @@ public class LSystem {
     }
     ////////////////////////Testing Methods/////////////////////////////
     public void printAlphabet(){
-        System.out.println("Alphabet : ");
+        System.out.println("\nAlphabet : ");
         for(Map.Entry pair: alphabet.entrySet()){
             System.out.println(alphabet.get(pair.getKey()).getSym());
         }
         System.out.println("End of alphabet");
     }
-    /*public void printRules(){
-        System.out.println("Rules : ");
+    public void printRules(){
+        System.out.println("\nRules : ");
         for(Map.Entry pair: rules.entrySet()){
-            System.out.println(pair.getKey().toString() + " : " + alphabet.get(pair.getKey()) );
+            Object key = pair.getKey();
+            System.out.println(key.toString());
+            for(var rule : rules.get(key) ){// rule is an iterator, we have to change it's type in order to get access to the getCharArray method defined in SymbolIterator
+                SymbolIterator symbolIteratorRule = (SymbolIterator)rule;// to then use the toString method which already exists on char []
+                char[] charArrayRule = symbolIteratorRule.toCharArray();
+                String rule_string = new String(charArrayRule);
+                System.out.println("\t"+rule_string);
+            }
         }
         System.out.println("End of Rules");
-    }*/
+    }
     ////////////////////////////////////////////////////////////////////
 
     HashMap<Symbol,List<Iterator>> rules = new HashMap<>();
@@ -62,6 +69,13 @@ public class LSystem {
         public Object next() {
             index++;
             return symbols[index];
+        }
+        public char[] toCharArray() {// returns the symbols array as a char array
+            char[] c = new char[symbols.length];
+            for(int i = 0; i<symbols.length;i++){
+                c[i]=symbols[i].getSym();
+            }
+            return c;
         }
         public String toString(){
             return Arrays.toString(symbols);
@@ -113,13 +127,13 @@ public class LSystem {
     public static void readJSONFile(String filename, LSystem system, Turtle turtle) throws java.io.IOException {
         JSONObject input = new JSONObject(new JSONTokener(new FileReader(filename))); // lecture de fichier JSON avec JSONTokener
         JSONArray alphabet = input.getJSONArray("alphabet");
-        System.out.println(alphabet);
+        System.out.println("alphabet is : "+alphabet);
 
         JSONObject rules = input.getJSONObject("rules");
-        System.out.println(rules);
+        System.out.println("rules are : "+rules);
 
         JSONObject actions = input.getJSONObject("actions");
-        System.out.println(actions);
+        System.out.println("actions are : "+actions);
 
         for (int i = 0; i < alphabet.length(); i++) {
             String letter = alphabet.getString(i);

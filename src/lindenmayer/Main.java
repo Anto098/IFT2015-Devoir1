@@ -24,7 +24,9 @@ public class Main {
             System.out.println(e);
         }
         l.printAlphabet();
-        System.out.println(l.rules.toString() );
+        l.printRules();
+
+        //System.out.println(l.rules.toString() );
         //System.out.println(l.actions.toString());
     }
 }
