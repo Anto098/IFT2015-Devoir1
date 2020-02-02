@@ -18,7 +18,7 @@ public class Main {
         System.out.println(l.rules.toString() );
          */
         try{
-            LSystem.readJSONFile("C:\\Users\\Hugo\\Desktop\\Cours Informatique\\IFT-2015\\IFT2015-Devoir1\\init.JSON",l,t);
+            LSystem.readJSONFile("C:\\Users\\Mokova\\Documents\\IFT_2015\\IFT2015-Devoir1\\init.JSON",l,t);
         }
         catch(Exception e){
             System.out.println(e);
@@ -26,6 +26,8 @@ public class Main {
         l.printAlphabet();
         l.printRules();
         System.out.println(l.actions.toString());
+
+        l.tell(t,l.alphabet.get('F'),2 );
 
         //System.out.println(l.rules.toString() );
     }

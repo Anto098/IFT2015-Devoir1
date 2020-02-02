@@ -5,7 +5,6 @@ import java.util.*;
 import java.awt.geom.Rectangle2D;
 import org.json.*;
 
-import javax.imageio.plugins.tiff.TIFFField;
 
 public class LSystem {
     /**
@@ -47,7 +46,7 @@ public class LSystem {
 
     HashMap<Symbol,List<Iterator>> rules = new HashMap<>();
 
-    public class SymbolIterator implements Iterator {
+    private class SymbolIterator implements Iterator {
         private Symbol[] symbols;
         private int length = 0;
         private int index = 0;
@@ -189,8 +188,8 @@ public class LSystem {
         int random = (int)Math.floor(Math.random()*sym_rules.size());   // We make a random number between 0 and the number of elements-1  and make it an integer
         return sym_rules.get(random);                                   // to select a rule to apply
     }
-    /* opérations avancées */
 
+    /* opérations avancées */
     public Iterator applyRules(Iterator seq, int n) {
 
         //We store the Symbols of seq in a new ArrayList "sequence"
@@ -205,14 +204,13 @@ public class LSystem {
         seqString += sequence.current().getChar();            // Copying the last element
 
         for (int i=0; i<n; i++) {                   // We apply rules n times on the whole axiom string
-            seqString = applyRuleOnce(seqString);
+            seqString = applyRulesOnce(seqString);
             System.out.println("fin fct "+i+" : "+seqString);
         }
 
         return new SymbolIterator(seqString);
     }
-    private String applyRuleOnce(String seqString) {
-        System.out.println("debut fct");
+    private String applyRulesOnce(String seqString) {
         String newAxiom = "";
         for (int i=0; i<seqString.length();i++) {
             Symbol symbol = alphabet.get(seqString.charAt(i));
@@ -230,7 +228,32 @@ public class LSystem {
         return newAxiom;
     }
 
-    public void tell(Turtle turtle, Symbol sym, int rounds){ }
+    public void tell(Turtle turtle, Symbol sym, int rounds){
+        String expansion = sym.getChar().toString();
+        if(rounds == 0)                                     // If we don't want to expand the string, execute the only move provided (1 symbol)
+                tell(turtle,sym);
+        else                                                // else expand the string 'rounds' times and then execute all the actions
+            tell(turtle,sym,expansion,rounds);
+    }
+
+    public void tell(Turtle turtle, Symbol sym, String expansion, int rounds){// recursively expand the string 'rounds' times
+        if(rounds == 0){                                                      // if we've expanded the string n times, execute all the actions
+            //double[] bounds = calculateCanvasBounds(expansion,turtle);
+
+            //getBoundingBox(turtle,new SymbolIterator(expansion),)
+
+            // Now that we know the size of the canvas, we can draw the turtle
+            for(int i = 0; i<expansion.length();i++){
+                System.out.println(alphabet.get(expansion.charAt(i)));
+                tell(turtle,alphabet.get(expansion.charAt(i)) );
+            }
+        }
+        else{
+            String newExpansion = applyRulesOnce(expansion);
+            tell(turtle,sym,newExpansion,rounds-1);
+        }
+    }
+
 
     public void tell(Turtle turtle, Symbol sym) {
         String action = actions.get(sym);
@@ -250,7 +273,47 @@ public class LSystem {
             case "stay": turtle.stay();
                 break;
         }
+        System.out.println("Pos : "+Math.round(turtle.getPosition().getX() * 100.0) / 100.0+"  "+Math.round(turtle.getPosition().getY() * 100.0) / 100.0+" Angle : "+turtle.getAngle());
+        turtle.stay();
     }
 
-    //public Rectangle2D getBoundingBox(Turtle turtle, Iterator seq, int n) {}
+    /*
+    public Rectangle2D getBoundingBox(Turtle turtle, Iterator seq, int n) {
+        // We calculate the maximum and minimum coordinates in X and Y to know which size our canvas has to be
+        double minX = 0;
+        double minY = 0;
+        double maxX = 0;
+        double maxY = 0;
+        for(int i = 0; i<expansion.length();i++){
+            tell(turtle,alphabet.get(expansion.charAt(i)) );
+            Point2D pos = turtle.getPosition();
+            if(pos.getX()>maxX)
+                maxX = pos.getX();
+            else if(pos.getX()<minX)
+                minX=pos.getX();
+            if(pos.getY()>maxY)
+                maxY = pos.getY();
+            else if(pos.getY()<minY)
+                minY = pos.getY();
+        }
+        return new double[] {minX,minY,maxX,maxY};
+    }
+    */
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

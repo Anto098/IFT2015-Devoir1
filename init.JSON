@@ -2,6 +2,6 @@
     "alphabet": ["F", "[", "]", "+", "-"],
     "rules": {"F" : ["F[+F]F[-F]F","F[+F]F","F[+F]F[-F]F"]},
     "axiom": "F",
-    "actions": {"F":"draw", "[":"push","]":"pop", "+":"turnR", "-":"turnL"},
+    "actions": {"F":"move", "[":"push","]":"pop", "+":"turnR", "-":"turnL"},
     "parameters" : {"step": 2, "angle":22.5, "start":[0,0,90]}
 }

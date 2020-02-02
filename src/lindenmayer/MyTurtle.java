@@ -24,14 +24,17 @@ public class MyTurtle implements Turtle {
         }
     }
     private State state;
-    private Stack stack = new Stack();
+    public Stack<State> stack = new Stack();
+    public Stack getStack(){
+        return stack;
+    }
     private double delta,step;
     public void draw(){
     }
     public void move(){
         double x = state.getPosition().getX();
         double y = state.getPosition().getY();
-        double angle = state.getAngle_deg();
+        double angle = Math.toRadians(state.getAngle_deg());
         double new_x = x+Math.cos(angle)*step;
         double new_y = y+Math.sin(angle)*step;
         state.setPosition(new Point2D.Double(new_x,new_y));
@@ -43,12 +46,19 @@ public class MyTurtle implements Turtle {
         state.setAngle_deg(state.getAngle_deg()+delta);
     }
     public void push(){
-        stack.push(state);
+        stack.push(new State(state.getPosition(),state.getAngle_deg())); // we create a new State so it has a different reference
     }
     public void pop(){
         stack.pop();
     }
-    public void stay(){}
+    public void stay(){
+        try{
+            System.out.println("STACK : \n\tPos : "+Math.round(stack.lastElement().getPosition().getX() * 100.0) / 100.0+"  "+Math.round(stack.lastElement().getPosition().getY() * 100.0) / 100.0+" Angle : "+stack.lastElement().getAngle_deg());
+        }
+        catch(Exception e){
+            System.out.println("y'a rien sur le stack");
+        }
+    }
     /**
      * initializes the turtle state (and clears the state stack)
      * @param position turtle position
