@@ -6,7 +6,7 @@ public class Symbol {
         this.sym = sym;
     }
     private Character sym;
-    public Character getSym() {
+    public Character getChar() {
         return sym;
     }
     public void setSym(Character sym) {

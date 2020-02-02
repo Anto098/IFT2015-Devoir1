@@ -1,8 +1,11 @@
 package lindenmayer;
+import java.awt.geom.Point2D;
 import java.io.FileReader;
 import java.util.*;
 import java.awt.geom.Rectangle2D;
 import org.json.*;
+
+import javax.imageio.plugins.tiff.TIFFField;
 
 public class LSystem {
     /**
@@ -22,7 +25,7 @@ public class LSystem {
     public void printAlphabet(){
         System.out.println("\nAlphabet : ");
         for(Map.Entry pair: alphabet.entrySet()){
-            System.out.println(alphabet.get(pair.getKey()).getSym());
+            System.out.println(alphabet.get(pair.getKey()).getChar());
         }
         System.out.println("End of alphabet");
     }
@@ -44,11 +47,12 @@ public class LSystem {
 
     HashMap<Symbol,List<Iterator>> rules = new HashMap<>();
 
-    private class SymbolIterator implements Iterator {
+    public class SymbolIterator implements Iterator {
         private Symbol[] symbols;
+        private int length = 0;
         private int index = 0;
         public SymbolIterator(String expansion){
-            int length = expansion.length();
+            length = expansion.length();
             symbols = new Symbol[length];
             for(int i = 0; i<length;i++){
                 symbols[i] = alphabet.get(expansion.charAt(i));
@@ -59,8 +63,8 @@ public class LSystem {
         }
         @Override
         public boolean hasNext() {
-            if(symbols[index+1] != null) return true;
-            else{
+            if(index+1 < length) return true;
+            else {
                 index = 0;
                 return false;
             }
@@ -70,10 +74,15 @@ public class LSystem {
             index++;
             return symbols[index];
         }
+
+        public Symbol current() {
+            return symbols[index];
+        }
+
         public char[] toCharArray() {// returns the symbols array as a char array
             char[] c = new char[symbols.length];
             for(int i = 0; i<symbols.length;i++){
-                c[i]=symbols[i].getSym();
+                c[i]=symbols[i].getChar();
             }
             return c;
         }
@@ -126,33 +135,51 @@ public class LSystem {
     /* initialisation par fichier */
     public static void readJSONFile(String filename, LSystem system, Turtle turtle) throws java.io.IOException {
         JSONObject input = new JSONObject(new JSONTokener(new FileReader(filename))); // lecture de fichier JSON avec JSONTokener
+
+        //We store the alphabet
         JSONArray alphabet = input.getJSONArray("alphabet");
-        System.out.println("alphabet is : "+alphabet);
-
-        JSONObject rules = input.getJSONObject("rules");
-        System.out.println("rules are : "+rules);
-
-        JSONObject actions = input.getJSONObject("actions");
-        System.out.println("actions are : "+actions);
-
         for (int i = 0; i < alphabet.length(); i++) {
             String letter = alphabet.getString(i);
             Symbol sym = system.addSymbol(letter.charAt(0)); // un caractère
         }
-        String axiom = input.getString("axiom");
-        system.setAxiom(axiom);
 
-        String[] keys = JSONObject.getNames(rules);
-        for(String key : keys){
+        //We store the rules
+        JSONObject rules = input.getJSONObject("rules");
+        String[] rulesKeys = JSONObject.getNames(rules);
+        for(String key : rulesKeys){
             List<Object> values =  rules.getJSONArray(key).toList();
             for(Object value : values){
-                System.out.println("value is : "+value);
-                system.addRule(system.alphabet.get(key.charAt(0)),value.toString());//TODO finir la fonction qui print les rules
+                system.addRule(system.alphabet.get(key.charAt(0)),value.toString());
             }
         }
 
+        //We store the initial axiom
+        String axiom = input.getString("axiom");
+        system.setAxiom(axiom);
 
+        //We store the actions
+        JSONObject actions = input.getJSONObject("actions");
+        String[] actionsKeys = JSONObject.getNames(actions);
+        for(String key : actionsKeys){
+            system.setAction(system.alphabet.get(key.charAt(0)),actions.get(key).toString());
+        }
+
+        //We store the parameters
+        JSONObject parameters = input.getJSONObject("parameters");
+
+        double step = Double.parseDouble(parameters.get("step").toString());
+        double angleDelta = Double.parseDouble(parameters.get("angle").toString());
+        turtle.setUnits(step,angleDelta);
+
+        JSONArray start = parameters.getJSONArray("start");
+        double startX = Double.parseDouble(start.get(0).toString());
+        double startY = Double.parseDouble(start.get(1).toString());
+        double startAngle = Double.parseDouble(start.get(2).toString());
+        turtle.init(new Point2D.Double(startX,startY),startAngle);
+
+        SymbolIterator s = (SymbolIterator) system.applyRules(system.getAxiom(),5);
     }
+
     /* accès aux règles et exécution */
     public Iterator getAxiom(){
         return axiom;
@@ -162,6 +189,49 @@ public class LSystem {
         int random = (int)Math.floor(Math.random()*sym_rules.size());   // We make a random number between 0 and the number of elements-1  and make it an integer
         return sym_rules.get(random);                                   // to select a rule to apply
     }
+    /* opérations avancées */
+
+    public Iterator applyRules(Iterator seq, int n) {
+
+        //We store the Symbols of seq in a new ArrayList "sequence"
+        ArrayList<Symbol> seqList = new ArrayList<>();
+        SymbolIterator sequence = (SymbolIterator) seq;
+
+        String seqString = "";
+        while(sequence.hasNext()) {                 //We copy each symbol in the ArrayList "sequence"
+            seqString += sequence.current().getChar();
+            sequence.next();
+        }
+        seqString += sequence.current().getChar();            // Copying the last element
+
+        for (int i=0; i<n; i++) {                   // We apply rules n times on the whole axiom string
+            seqString = applyRuleOnce(seqString);
+            System.out.println("fin fct "+i+" : "+seqString);
+        }
+
+        return new SymbolIterator(seqString);
+    }
+    private String applyRuleOnce(String seqString) {
+        System.out.println("debut fct");
+        String newAxiom = "";
+        for (int i=0; i<seqString.length();i++) {
+            Symbol symbol = alphabet.get(seqString.charAt(i));
+
+            if (rules.get(symbol) == null) {
+                newAxiom+=seqString.charAt(i);      //We keep the character because it doesn't have any rule
+                continue;
+            }
+
+            SymbolIterator newSymbols = (SymbolIterator) rewrite(symbol);
+            char[] newSymbols2 = newSymbols.toCharArray();
+            newAxiom += new String(newSymbols2);
+        }
+
+        return newAxiom;
+    }
+
+    public void tell(Turtle turtle, Symbol sym, int rounds){ }
+
     public void tell(Turtle turtle, Symbol sym) {
         String action = actions.get(sym);
         switch(action){
@@ -182,8 +252,5 @@ public class LSystem {
         }
     }
 
-    /* opérations avancées */
-    //public Iterator applyRules(Iterator seq, int n) {}
-    public void tell(Turtle turtle, Symbol sym, int rounds){}
     //public Rectangle2D getBoundingBox(Turtle turtle, Iterator seq, int n) {}
 }

@@ -78,8 +78,8 @@ public class MyTurtle implements Turtle {
      * @param delta unit angle change in degrees (for turnR and turnL)
      */
     public void setUnits(double step, double delta){
-        step = step;
-        delta = delta;
+        this.step = step;
+        this.delta = delta;
     };
 
 }
