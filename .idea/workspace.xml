@@ -4,12 +4,9 @@
     <list default="true" id="4c95186f-0ef3-4884-b9b8-615c280b7a09" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Devoir1.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Devoir1.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/init.JSON" beforeDir="false" afterPath="$PROJECT_DIR$/init.JSON" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/lindenmayer/LSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/lindenmayer/LSystem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/lindenmayer/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/lindenmayer/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/lindenmayer/MyTurtle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/lindenmayer/MyTurtle.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lindenmayer/Symbol.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/lindenmayer/Symbol.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -30,7 +27,7 @@
   </component>
   <component name="ProjectId" id="1X2lsu0vUIGZB4tnhrXo0y0m2Uk" />
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/java_to_json/json-20190722.jar!/" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../java_to_json/json-20190722.jar!/" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -87,5 +84,12 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="sym" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>

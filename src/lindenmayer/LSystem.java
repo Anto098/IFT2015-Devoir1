@@ -7,11 +7,31 @@ import org.json.*;
 
 
 public class LSystem {
-    /**
-     * constructeur vide monte un système avec alphabet vide et sans règles
-     */
-    public LSystem(){ }
-    /* méthodes d'initialisation de système */
+
+    protected final Random RND;
+
+    private final long init_seed;
+
+    protected LSystem()
+    {
+        this((new Random()).nextLong());
+    }
+
+
+    protected LSystem(long init_random_seed)
+    {
+        this.init_seed = init_random_seed;
+        this.RND = new Random(init_random_seed);
+    }
+
+
+    protected void resetRandomGenerator()
+    {
+        this.RND.setSeed(init_seed);
+    }
+
+
+
 
     HashMap<Character,Symbol> alphabet = new HashMap<>();
 
@@ -28,67 +48,26 @@ public class LSystem {
         }
         System.out.println("End of alphabet");
     }
-    public void printRules(){
-        System.out.println("\nRules : ");
-        for(Map.Entry pair: rules.entrySet()){
-            Object key = pair.getKey();
-            System.out.println(key.toString());
-            for(var rule : rules.get(key) ){// rule is an iterator, we have to change it's type in order to get access to the getCharArray method defined in SymbolIterator
-                SymbolIterator symbolIteratorRule = (SymbolIterator)rule;// to then use the toString method which already exists on char []
-                char[] charArrayRule = symbolIteratorRule.toCharArray();
-                String rule_string = new String(charArrayRule);
-                System.out.println("\t"+rule_string);
-            }
-        }
-        System.out.println("End of Rules");
-    }
     ////////////////////////////////////////////////////////////////////
 
     HashMap<Symbol,List<Iterator>> rules = new HashMap<>();
 
-    private class SymbolIterator implements Iterator {
-        private Symbol[] symbols;
-        private int length = 0;
-        private int index = 0;
-        public SymbolIterator(String expansion){
-            length = expansion.length();
-            symbols = new Symbol[length];
-            for(int i = 0; i<length;i++){
-                symbols[i] = alphabet.get(expansion.charAt(i));
-            }
+    private Iterator<Symbol> getSymbolIterator(String expansion) {
+        ArrayList<Symbol> array = new ArrayList();
+        for (int i=0;i<expansion.length(); i++) {
+            array.add(alphabet.get(expansion.charAt(i)));
         }
-        public Symbol[] getsymbols() {
-            return symbols;
-        }
-        @Override
-        public boolean hasNext() {
-            if(index+1 < length) return true;
-            else {
-                index = 0;
-                return false;
-            }
-        }
-        @Override
-        public Object next() {
-            index++;
-            return symbols[index];
-        }
-
-        public Symbol current() {
-            return symbols[index];
-        }
-
-        public char[] toCharArray() {// returns the symbols array as a char array
-            char[] c = new char[symbols.length];
-            for(int i = 0; i<symbols.length;i++){
-                c[i]=symbols[i].getChar();
-            }
-            return c;
-        }
-        public String toString(){
-            return Arrays.toString(symbols);
-        }
+        return array.iterator();
     }
+
+    private String getStringFromIterator(Iterator<Symbol> iterator) {
+        String s ="";
+        while(iterator.hasNext()) {
+            s+=iterator.next().toString();
+        }
+        return s;
+    }
+
     public void addRule(Symbol sym, String expansion) {         // Do we need to check if the rule already exists?
         if(!alphabet.containsValue(sym)){                       // Check if the symbol is in the alphabet
             System.out.println("\tThe symbol \""+sym+"\" used to make a rule is not in the alphabet");
@@ -104,11 +83,11 @@ public class LSystem {
             }
         }
         if(rules.containsKey(sym)){                             // If the key is already in the list, we add the expansion to the list of rules of this key
-            rules.get(sym).add(new SymbolIterator(expansion));
+            rules.get(sym).add(getSymbolIterator(expansion));
         }
         else{                                                   // If the key isn't there, we create a new key with a new list
             ArrayList<Iterator> ruleList = new ArrayList<Iterator>();
-            ruleList.add(new SymbolIterator(expansion));
+            ruleList.add(getSymbolIterator(expansion));
             rules.put(sym,ruleList);
         }
     }
@@ -117,7 +96,7 @@ public class LSystem {
     public void setAction(Symbol sym, String action) {
         actions.put(sym,action);
     }
-    SymbolIterator axiom;
+    Iterator<Symbol> axiom;
     public void setAxiom(String str){
         for(int i = 0;i<str.length();i++){                // We check if the alphabet contains every character contained in the expansion
             if(alphabet.containsKey(str.charAt(i))){
@@ -128,7 +107,7 @@ public class LSystem {
                 return;
             }
         }
-        axiom = new SymbolIterator(str);
+        axiom = getSymbolIterator(str);
     }
 
     /* initialisation par fichier */
@@ -175,85 +154,75 @@ public class LSystem {
         double startY = Double.parseDouble(start.get(1).toString());
         double startAngle = Double.parseDouble(start.get(2).toString());
         turtle.init(new Point2D.Double(startX,startY),startAngle);
-
-        SymbolIterator s = (SymbolIterator) system.applyRules(system.getAxiom(),5);
     }
 
     /* accès aux règles et exécution */
-    public Iterator getAxiom(){
+    public Iterator<Symbol> getAxiom(){
         return axiom;
     }
-    public Iterator rewrite(Symbol sym) {
-        List<Iterator> sym_rules = rules.get(sym);
-        int random = (int)Math.floor(Math.random()*sym_rules.size());   // We make a random number between 0 and the number of elements-1  and make it an integer
-        return sym_rules.get(random);                                   // to select a rule to apply
-    }
-
     /* opérations avancées */
-    public Iterator applyRules(Iterator seq, int n) {
 
-        //We store the Symbols of seq in a new ArrayList "sequence"
-        ArrayList<Symbol> seqList = new ArrayList<>();
-        SymbolIterator sequence = (SymbolIterator) seq;
-
+    public Iterator<Symbol> applyRules(Iterator<Symbol> seq, int n) {
         String seqString = "";
-        while(sequence.hasNext()) {                 //We copy each symbol in the ArrayList "sequence"
-            seqString += sequence.current().getChar();
-            sequence.next();
+        while(seq.hasNext()) {                      //We copy each symbol in the String "seqString"
+            seqString += seq.next().getChar();
         }
-        seqString += sequence.current().getChar();            // Copying the last element
 
         for (int i=0; i<n; i++) {                   // We apply rules n times on the whole axiom string
             seqString = applyRulesOnce(seqString);
             System.out.println("fin fct "+i+" : "+seqString);
         }
 
-        return new SymbolIterator(seqString);
+        return getSymbolIterator(seqString);
     }
     private String applyRulesOnce(String seqString) {
         String newAxiom = "";
         for (int i=0; i<seqString.length();i++) {
+            System.out.println("new axiom : " + newAxiom);
             Symbol symbol = alphabet.get(seqString.charAt(i));
+            System.out.println("\t"+rules.get(symbol)+"\t"+symbol.toString());
 
             if (rules.get(symbol) == null) {
                 newAxiom+=seqString.charAt(i);      //We keep the character because it doesn't have any rule
                 continue;
             }
 
-            SymbolIterator newSymbols = (SymbolIterator) rewrite(symbol);
-            char[] newSymbols2 = newSymbols.toCharArray();
-            newAxiom += new String(newSymbols2);
+            Iterator<Symbol> newSymbols = rewrite(symbol);
+            newAxiom += getStringFromIterator(newSymbols);
         }
 
         return newAxiom;
     }
 
-    public void tell(Turtle turtle, Symbol sym, int rounds){
-        String expansion = sym.getChar().toString();
-        if(rounds == 0)                                     // If we don't want to expand the string, execute the only move provided (1 symbol)
-                tell(turtle,sym);
-        else                                                // else expand the string 'rounds' times and then execute all the actions
-            tell(turtle,sym,expansion,rounds);
+    public Iterator<Symbol> rewrite(Symbol sym) {
+        List<Iterator> sym_rules = rules.get(sym);
+        int random = (int)Math.floor(RND.nextDouble()*sym_rules.size());   // We make a random number between 0 and the number of elements-1  and make it an integer
+        String ruleData = getStringFromIterator(sym_rules.get(random));    // Since an Iterator can only be iterated through once, we copy it's data and we return a copy of it
+
+        sym_rules.set(random, getSymbolIterator(ruleData));                 // getStringFromIterator iterated through the ruleIterator so we need to reassign a fresh Iterator to the rule
+
+        return getSymbolIterator(ruleData);                               // to select a rule to apply
     }
 
-    public void tell(Turtle turtle, Symbol sym, String expansion, int rounds){// recursively expand the string 'rounds' times
-        if(rounds == 0){                                                      // if we've expanded the string n times, execute all the actions
-            //double[] bounds = calculateCanvasBounds(expansion,turtle);
+    public String test = "";
+    public void tell(Turtle turtle, Symbol sym, int rounds) {
+        if (rounds == 0) {                  // If rounds=0 then we are at the end of the recursion and we want tell the turtle to execute the actions
+            tell(turtle, sym);
+            test+=sym.toString();
+            return;
+        }
 
-            //getBoundingBox(turtle,new SymbolIterator(expansion),)
-
-            // Now that we know the size of the canvas, we can draw the turtle
-            for(int i = 0; i<expansion.length();i++){
-                System.out.println(alphabet.get(expansion.charAt(i)));
-                tell(turtle,alphabet.get(expansion.charAt(i)) );
+        if (rules.get(sym) != null) {       // If the symbol has a rule, we want to call rewrite(). If not, it is a terminal symbol.
+            Iterator<Symbol> newSymbols = rewrite(sym);
+            while (newSymbols.hasNext()) {
+                Symbol s = newSymbols.next();
+                tell(turtle, s, rounds-1);
             }
-        }
-        else{
-            String newExpansion = applyRulesOnce(expansion);
-            tell(turtle,sym,newExpansion,rounds-1);
+        } else {
+            test+=sym;
+            tell(turtle,sym);
         }
     }
-
 
     public void tell(Turtle turtle, Symbol sym) {
         String action = actions.get(sym);
@@ -284,6 +253,16 @@ public class LSystem {
         double minY = 0;
         double maxX = 0;
         double maxY = 0;
+
+        Symbol[] newSymbols = ((SymbolIterator) rewrite(sym)).getsymbols();
+        for (Symbol symbol : newSymbols) {
+            if (rounds == 0) {                          // If rounds=0 then we are at the end of the recursion and we want tell the turtle to execute the actions
+                tell(turtle, symbol);
+            } else {                                    // If rounds!=0 then we want to continue the recursion to keep building the axiom
+                tell(turtle, symbol, rounds-1);
+            }
+        }
+
         for(int i = 0; i<expansion.length();i++){
             tell(turtle,alphabet.get(expansion.charAt(i)) );
             Point2D pos = turtle.getPosition();
@@ -298,7 +277,8 @@ public class LSystem {
         }
         return new double[] {minX,minY,maxX,maxY};
     }
-    */
+
+     */
 }
 
 
