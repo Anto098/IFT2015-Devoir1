@@ -27,11 +27,11 @@
   </component>
   <component name="ProjectId" id="1X2lsu0vUIGZB4tnhrXo0y0m2Uk" />
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../java_to_json/json-20190722.jar!/" />
+    <property name="last_opened_file_path" value="$USER_HOME$/java_to_json/json-20190722.jar!/" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
+    <property name="settings.editor.selected.configurable" value="vcs.Git" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -46,16 +46,17 @@
     </option>
   </component>
   <component name="RunManager">
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="lindenmayer.Main" />
+    <configuration name="Plotter" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="lindenmayer.Plotter" />
       <module name="Devoir1" />
+      <option name="PROGRAM_PARAMETERS" value="C:\Users\Mokova\Documents\IFT_2015\IFT2015-Devoir1\init.JSON 3" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Main" />
+        <item itemvalue="Application.Plotter" />
       </list>
     </recent_temporary>
   </component>

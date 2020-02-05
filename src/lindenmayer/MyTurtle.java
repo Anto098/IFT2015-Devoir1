@@ -53,10 +53,10 @@ public class MyTurtle implements Turtle {
     }
     public void stay(){
         try{
-            System.out.println("STACK : \n\tPos : "+Math.round(stack.lastElement().getPosition().getX() * 100.0) / 100.0+"  "+Math.round(stack.lastElement().getPosition().getY() * 100.0) / 100.0+" Angle : "+stack.lastElement().getAngle_deg()+"\n");
+            //System.out.println("STACK : \n\tPos : "+Math.round(stack.lastElement().getPosition().getX() * 100.0) / 100.0+"  "+Math.round(stack.lastElement().getPosition().getY() * 100.0) / 100.0+" Angle : "+stack.lastElement().getAngle_deg()+"\n");
         }
         catch(Exception e){
-            System.out.println("\t\tY'a rien sur le stack \n");
+            //System.out.println("\t\tY'a rien sur le stack \n"); // nothing on the stack
         }
     }
     /**

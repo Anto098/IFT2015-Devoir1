@@ -33,8 +33,7 @@ public class LSystem {
         this.RND.setSeed(init_seed);
     }
 
-
-
+    Rectangle2D.Double biggest_Rectangle;
 
     HashMap<Character,Symbol> alphabet = new HashMap<>();
 
@@ -157,11 +156,15 @@ public class LSystem {
         double startY = Double.parseDouble(start.get(1).toString());
         double startAngle = Double.parseDouble(start.get(2).toString());
         turtle.init(new Point2D.Double(startX,startY),startAngle);
+        system.biggest_Rectangle = new Rectangle2D.Double(startX,startY,0,0);
+
     }
 
     /* accès aux règles et exécution */
     public Iterator<Symbol> getAxiom(){
-        return axiom;
+        String axiomCopy = getStringFromIterator(axiom);
+        setAxiom(axiomCopy);
+        return getSymbolIterator(axiomCopy);
     }
     /* opérations avancées */
 
@@ -201,7 +204,6 @@ public class LSystem {
         List<Iterator> sym_rules = rules.get(sym);
         int random = (int)Math.floor(RND.nextDouble()*sym_rules.size());   // We make a random number between 0 and the number of elements-1  and make it an integer
         String ruleData = getStringFromIterator(sym_rules.get(random));    // Since an Iterator can only be iterated through once, we copy it's data and we return a copy of it
-
         sym_rules.set(random, getSymbolIterator(ruleData));                 // getStringFromIterator iterated through the ruleIterator so we need to reassign a fresh Iterator to the rule
 
         return getSymbolIterator(ruleData);                               // to select a rule to apply
@@ -246,22 +248,18 @@ public class LSystem {
                 break;
         }
         System.out.println("Pos : "+Math.round(turtle.getPosition().getX() * 100.0) / 100.0+"  "+Math.round(turtle.getPosition().getY() * 100.0) / 100.0+" Angle : "+turtle.getAngle());
-        turtle.stay();
+        //turtle.stay();
     }
 
 
-    Rectangle2D.Double biggest_Rectangle = new Rectangle2D.Double(0,0,0,0);
-
     public Rectangle2D getBoundingBox(Turtle turtle, Iterator<Symbol> seq, int n) {
         // We calculate the maximum and minimum coordinates in X and Y to know which size our canvas has to be
-        System.out.println("seq to string : "+seq.toString());
-        System.out.println("n : "+n);
         while(seq.hasNext()){
             Symbol sym = seq.next();
             if(n == 0){
                 maxRect(turtle,sym);
             }
-            else if (rules.get(alphabet.get(sym)) != null){
+            else if (rules.get(sym) != null){
                 getBoundingBox(turtle,rewrite(sym),n-1);
             }
             else {
@@ -280,11 +278,14 @@ public class LSystem {
         double minY = Math.min(old_pos.getY(),new_pos.getY());
         double maxX = Math.max(old_pos.getX(),new_pos.getX());
         double maxY = Math.max(old_pos.getY(), new_pos.getY());
+        //System.out.println("rectangle avant : "+biggest_Rectangle.toString());
+        /*
         System.out.println("minX : "+minX);
         System.out.println("minY : "+minY);
         System.out.println("maxX : "+maxX);
-        System.out.println("maxY : "+maxY);
-        biggest_Rectangle.createUnion(new Rectangle2D.Double(minX,minY,maxX-minX,maxY-minY));
+        System.out.println("maxY : "+maxY);*/
+        biggest_Rectangle = (Rectangle2D.Double)biggest_Rectangle.createUnion(new Rectangle2D.Double(minX,minY,maxX-minX,maxY-minY));
+        System.out.println("rectangle apres : "+biggest_Rectangle.toString());
 
     }
 }

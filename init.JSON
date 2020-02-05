@@ -1,7 +1,7 @@
 {
-    "alphabet": ["F", "[", "]", "+", "-","a"],
-    "rules": {"F" : ["FFF","a"]},
+    "alphabet": ["F", "[", "]", "+", "-"],
+    "rules": {"F" : ["F[+F]F[-F]F","F[+F]F","F[+F]F[-F]F"]},
     "axiom": "F",
-    "actions": {"F":"move", "[":"push","]":"pop", "+":"turnR", "a":"turnL"},
-    "parameters" : {"step": 1, "angle":90, "start":[0,0,90]}
+    "actions": {"F":"move", "[":"push","]":"pop", "+":"turnR", "-":"turnL"},
+    "parameters" : {"step": 2, "angle":22.5, "start":[0,0,90]}
 }
