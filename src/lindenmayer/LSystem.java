@@ -1,8 +1,11 @@
 package lindenmayer;
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.io.FileReader;
 import java.util.*;
 import java.awt.geom.Rectangle2D;
+import java.util.List;
+
 import org.json.*;
 
 
@@ -204,11 +207,11 @@ public class LSystem {
         return getSymbolIterator(ruleData);                               // to select a rule to apply
     }
 
-    public String test = "";
+    public String expansion = "";
     public void tell(Turtle turtle, Symbol sym, int rounds) {
         if (rounds == 0) {                  // If rounds=0 then we are at the end of the recursion and we want tell the turtle to execute the actions
             tell(turtle, sym);
-            test+=sym.toString();
+            expansion+=sym.toString();
             return;
         }
 
@@ -219,7 +222,7 @@ public class LSystem {
                 tell(turtle, s, rounds-1);
             }
         } else {
-            test+=sym;
+            expansion+=sym;
             tell(turtle,sym);
         }
     }
@@ -246,39 +249,44 @@ public class LSystem {
         turtle.stay();
     }
 
-    /*
-    public Rectangle2D getBoundingBox(Turtle turtle, Iterator seq, int n) {
-        // We calculate the maximum and minimum coordinates in X and Y to know which size our canvas has to be
-        double minX = 0;
-        double minY = 0;
-        double maxX = 0;
-        double maxY = 0;
 
-        Symbol[] newSymbols = ((SymbolIterator) rewrite(sym)).getsymbols();
-        for (Symbol symbol : newSymbols) {
-            if (rounds == 0) {                          // If rounds=0 then we are at the end of the recursion and we want tell the turtle to execute the actions
-                tell(turtle, symbol);
-            } else {                                    // If rounds!=0 then we want to continue the recursion to keep building the axiom
-                tell(turtle, symbol, rounds-1);
+    Rectangle2D.Double biggest_Rectangle = new Rectangle2D.Double(0,0,0,0);
+
+    public Rectangle2D getBoundingBox(Turtle turtle, Iterator<Symbol> seq, int n) {
+        // We calculate the maximum and minimum coordinates in X and Y to know which size our canvas has to be
+        System.out.println("seq to string : "+seq.toString());
+        System.out.println("n : "+n);
+        while(seq.hasNext()){
+            Symbol sym = seq.next();
+            if(n == 0){
+                maxRect(turtle,sym);
+            }
+            else if (rules.get(alphabet.get(sym)) != null){
+                getBoundingBox(turtle,rewrite(sym),n-1);
+            }
+            else {
+                maxRect(turtle,sym);
             }
         }
+        return biggest_Rectangle;
 
-        for(int i = 0; i<expansion.length();i++){
-            tell(turtle,alphabet.get(expansion.charAt(i)) );
-            Point2D pos = turtle.getPosition();
-            if(pos.getX()>maxX)
-                maxX = pos.getX();
-            else if(pos.getX()<minX)
-                minX=pos.getX();
-            if(pos.getY()>maxY)
-                maxY = pos.getY();
-            else if(pos.getY()<minY)
-                minY = pos.getY();
-        }
-        return new double[] {minX,minY,maxX,maxY};
     }
 
-     */
+    private void maxRect(Turtle turtle,Symbol sym){
+        Point2D.Double old_pos = new Point2D.Double(turtle.getPosition().getX(),turtle.getPosition().getY());      // Union of (the old rectangles obtained so far) with (the new rectangle position)
+        tell(turtle,sym);
+        Point2D.Double new_pos = new Point2D.Double(turtle.getPosition().getX(),turtle.getPosition().getY());
+        double minX = Math.min(old_pos.getX(),new_pos.getX());
+        double minY = Math.min(old_pos.getY(),new_pos.getY());
+        double maxX = Math.max(old_pos.getX(),new_pos.getX());
+        double maxY = Math.max(old_pos.getY(), new_pos.getY());
+        System.out.println("minX : "+minX);
+        System.out.println("minY : "+minY);
+        System.out.println("maxX : "+maxX);
+        System.out.println("maxY : "+maxY);
+        biggest_Rectangle.createUnion(new Rectangle2D.Double(minX,minY,maxX-minX,maxY-minY));
+
+    }
 }
 
 
