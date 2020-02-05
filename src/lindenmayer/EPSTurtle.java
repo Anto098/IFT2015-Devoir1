@@ -80,6 +80,8 @@ public class EPSTurtle implements Turtle
                 +" "+Integer.toString((int)bbox.getMaxX())
                 +" "+Integer.toString((int)bbox.getMaxY()));
         out.println("%%EOF");
+
+        System.out.println(lsystem.expansion);
     }
 
     /**

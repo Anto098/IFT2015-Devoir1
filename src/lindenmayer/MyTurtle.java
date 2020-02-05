@@ -30,6 +30,7 @@ public class MyTurtle implements Turtle {
     }
     private double delta,step;
     public void draw(){
+        move();
     }
     public void move(){
         double x = state.getPosition().getX();
@@ -38,6 +39,7 @@ public class MyTurtle implements Turtle {
         double new_x = x+Math.cos(angle)*step;
         double new_y = y+Math.sin(angle)*step;
         state.setPosition(new Point2D.Double(new_x,new_y));
+        System.out.println("x,y,angle,new_x,new_y : "+x+"  "+y+"  "+angle+"  "+new_x+"  "+new_y);
     }
     public void turnR(){
         state.setAngle_deg(state.getAngle_deg()-delta);

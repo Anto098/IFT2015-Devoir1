@@ -44,11 +44,11 @@ public class LSystem {
     }
     ////////////////////////Testing Methods/////////////////////////////
     public void printAlphabet(){
-        System.out.println("\nAlphabet : ");
+        //System.out.println("\nAlphabet : ");
         for(Map.Entry pair: alphabet.entrySet()){
-            System.out.println(alphabet.get(pair.getKey()).getChar());
+            //System.out.println(alphabet.get(pair.getKey()).getChar());
         }
-        System.out.println("End of alphabet");
+        //System.out.println("End of alphabet");
     }
     ////////////////////////////////////////////////////////////////////
 
@@ -72,7 +72,7 @@ public class LSystem {
 
     public void addRule(Symbol sym, String expansion) {         // Do we need to check if the rule already exists?
         if(!alphabet.containsValue(sym)){                       // Check if the symbol is in the alphabet
-            System.out.println("\tThe symbol \""+sym+"\" used to make a rule is not in the alphabet");
+            //System.out.println("\tThe symbol \""+sym+"\" used to make a rule is not in the alphabet");
             return;
         }
         for(int i = 0;i<expansion.length();i++){                // We check if the alphabet contains every character contained in the expansion
@@ -80,7 +80,7 @@ public class LSystem {
                 continue;                                       // If it does, we keep checking for all the other characters
             }                                                   // Else, we don't add the rule because one or more character(s) aren't in our alphabet
             else {
-                System.out.println("\tThe Symbol \""+expansion.charAt(i)+"\" in the expansion of the rule is not in the alphabet");
+                //System.out.println("\tThe Symbol \""+expansion.charAt(i)+"\" in the expansion of the rule is not in the alphabet");
                 return;
             }
         }
@@ -105,7 +105,7 @@ public class LSystem {
                 continue;                                       // If it does, we keep checking for all the other characters
             }                                                   // Else, we don't add the rule because one or more character(s) aren't in our alphabet
             else {
-                System.out.println("\tThe Symbol \""+str.charAt(i)+"\" in the axiom is not in the alphabet");
+                //System.out.println("\tThe Symbol \""+str.charAt(i)+"\" in the axiom is not in the alphabet");
                 return;
             }
         }
@@ -176,7 +176,7 @@ public class LSystem {
 
         for (int i=0; i<n; i++) {                   // We apply rules n times on the whole axiom string
             seqString = applyRulesOnce(seqString);
-            System.out.println("fin fct "+i+" : "+seqString);
+            //System.out.println("fin fct "+i+" : "+seqString);
         }
 
         return getSymbolIterator(seqString);
@@ -184,9 +184,9 @@ public class LSystem {
     private String applyRulesOnce(String seqString) {
         String newAxiom = "";
         for (int i=0; i<seqString.length();i++) {
-            System.out.println("new axiom : " + newAxiom);
+            //System.out.println("new axiom : " + newAxiom);
             Symbol symbol = alphabet.get(seqString.charAt(i));
-            System.out.println("\t"+rules.get(symbol)+"\t"+symbol.toString());
+            //System.out.println("\t"+rules.get(symbol)+"\t"+symbol.toString());
 
             if (rules.get(symbol) == null) {
                 newAxiom+=seqString.charAt(i);      //We keep the character because it doesn't have any rule
@@ -247,7 +247,7 @@ public class LSystem {
             case "stay": turtle.stay();
                 break;
         }
-        System.out.println("Pos : "+Math.round(turtle.getPosition().getX() * 100.0) / 100.0+"  "+Math.round(turtle.getPosition().getY() * 100.0) / 100.0+" Angle : "+turtle.getAngle());
+        //System.out.println("Pos : "+Math.round(turtle.getPosition().getX() * 100.0) / 100.0+"  "+Math.round(turtle.getPosition().getY() * 100.0) / 100.0+" Angle : "+turtle.getAngle());
         //turtle.stay();
     }
 
@@ -278,14 +278,14 @@ public class LSystem {
         double minY = Math.min(old_pos.getY(),new_pos.getY());
         double maxX = Math.max(old_pos.getX(),new_pos.getX());
         double maxY = Math.max(old_pos.getY(), new_pos.getY());
-        //System.out.println("rectangle avant : "+biggest_Rectangle.toString());
+        ////System.out.println("rectangle avant : "+biggest_Rectangle.toString());
         /*
-        System.out.println("minX : "+minX);
-        System.out.println("minY : "+minY);
-        System.out.println("maxX : "+maxX);
-        System.out.println("maxY : "+maxY);*/
+        //System.out.println("minX : "+minX);
+        //System.out.println("minY : "+minY);
+        //System.out.println("maxX : "+maxX);
+        //System.out.println("maxY : "+maxY);*/
         biggest_Rectangle = (Rectangle2D.Double)biggest_Rectangle.createUnion(new Rectangle2D.Double(minX,minY,maxX-minX,maxY-minY));
-        System.out.println("rectangle apres : "+biggest_Rectangle.toString());
+        //System.out.println("rectangle apres : "+biggest_Rectangle.toString());
 
     }
 }
