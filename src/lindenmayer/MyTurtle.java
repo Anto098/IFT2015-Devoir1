@@ -51,7 +51,7 @@ public class MyTurtle implements Turtle {
         stack.push(new State(state.getPosition(),state.getAngle_deg())); // we create a new State so it has a different reference
     }
     public void pop(){
-        stack.pop();
+        state=stack.pop();
     }
     public void stay(){
         try{

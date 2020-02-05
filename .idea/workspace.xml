@@ -4,8 +4,6 @@
     <list default="true" id="4c95186f-0ef3-4884-b9b8-615c280b7a09" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lindenmayer/LSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/lindenmayer/LSystem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lindenmayer/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/lindenmayer/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/lindenmayer/MyTurtle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/lindenmayer/MyTurtle.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -49,7 +47,7 @@
     <configuration name="Plotter" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="lindenmayer.Plotter" />
       <module name="Devoir1" />
-      <option name="PROGRAM_PARAMETERS" value="C:\Users\Mokova\Documents\IFT_2015\IFT2015-Devoir1\sierpinski.JSON 8" />
+      <option name="PROGRAM_PARAMETERS" value="C:\Users\Hugo\Desktop\CoursInformatique\IFT-2015\IFT2015-Devoir1\buisson.JSON 5" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
