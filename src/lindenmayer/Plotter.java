@@ -48,7 +48,7 @@ public class Plotter
 
     private Plotter()
     {
-        this(new LSystem(), new EPSTurtle(new MyTurtle()));
+//        this(new LSystem(), new EPSTurtle(new MyTurtle()));
     }
 
     /**

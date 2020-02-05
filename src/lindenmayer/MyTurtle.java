@@ -39,13 +39,13 @@ public class MyTurtle implements Turtle {
         double new_x = x+Math.cos(angle)*step;
         double new_y = y+Math.sin(angle)*step;
         state.setPosition(new Point2D.Double(new_x,new_y));
-        System.out.println("x,y,angle,new_x,new_y : "+x+"  "+y+"  "+angle+"  "+new_x+"  "+new_y);
+        //System.out.println("x,y,angle,new_x,new_y : "+x+"  "+y+"  "+angle+"  "+new_x+"  "+new_y);
     }
     public void turnR(){
-        state.setAngle_deg(state.getAngle_deg()-delta);
+        state.setAngle_deg(state.getAngle_deg()+delta);
     }
     public void turnL(){
-        state.setAngle_deg(state.getAngle_deg()+delta);
+        state.setAngle_deg(state.getAngle_deg()-delta);
     }
     public void push(){
         stack.push(new State(state.getPosition(),state.getAngle_deg())); // we create a new State so it has a different reference

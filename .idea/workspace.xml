@@ -49,7 +49,7 @@
     <configuration name="Plotter" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="lindenmayer.Plotter" />
       <module name="Devoir1" />
-      <option name="PROGRAM_PARAMETERS" value="C:\Users\Mokova\Documents\IFT_2015\IFT2015-Devoir1\hexamaze.JSON 6" />
+      <option name="PROGRAM_PARAMETERS" value="C:\Users\Mokova\Documents\IFT_2015\IFT2015-Devoir1\sierpinski.JSON 8" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>

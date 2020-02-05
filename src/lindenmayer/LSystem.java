@@ -278,7 +278,7 @@ public class LSystem {
         double minY = Math.min(old_pos.getY(),new_pos.getY());
         double maxX = Math.max(old_pos.getX(),new_pos.getX());
         double maxY = Math.max(old_pos.getY(), new_pos.getY());
-        ////System.out.println("rectangle avant : "+biggest_Rectangle.toString());
+        //System.out.println("rectangle avant : "+biggest_Rectangle.toString());
         /*
         //System.out.println("minX : "+minX);
         //System.out.println("minY : "+minY);
