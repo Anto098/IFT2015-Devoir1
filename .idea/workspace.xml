@@ -4,9 +4,17 @@
     <list default="true" id="4c95186f-0ef3-4884-b9b8-615c280b7a09" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lindenmayer/LSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/lindenmayer/LSystem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lindenmayer/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/lindenmayer/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/buisson5.eps" beforeDir="false" afterPath="$PROJECT_DIR$/src/buisson5.eps" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lindenmayer/EPSTurtle.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/lindenmayer/EPSTurtle.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lindenmayer/EPSTurtle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/lindenmayer/EPSTurtle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lindenmayer/LSystem.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/lindenmayer/LSystem.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lindenmayer/MyTurtle$State.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/lindenmayer/MyTurtle$State.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lindenmayer/MyTurtle.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/lindenmayer/MyTurtle.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/lindenmayer/MyTurtle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/lindenmayer/MyTurtle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lindenmayer/Plotter.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/lindenmayer/Plotter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lindenmayer/Plotter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/lindenmayer/Plotter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lindenmayer/Symbol.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/lindenmayer/Symbol.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lindenmayer/Turtle.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/lindenmayer/Turtle.class" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -27,8 +35,13 @@
   </component>
   <component name="ProjectId" id="1X2lsu0vUIGZB4tnhrXo0y0m2Uk" />
   <component name="PropertiesComponent">
+<<<<<<< Updated upstream
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../java_to_json/json-20190722.jar!/" />
     <property name="project.structure.last.edited" value="Libraries" />
+=======
+    <property name="last_opened_file_path" value="$USER_HOME$/java_to_json/json-20190722.jar!/" />
+    <property name="project.structure.last.edited" value="Project" />
+>>>>>>> Stashed changes
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
@@ -49,6 +62,10 @@
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="lindenmayer.Main" />
       <module name="Devoir1" />
+<<<<<<< Updated upstream
+=======
+      <option name="PROGRAM_PARAMETERS" value="C:\Users\Hugo\Desktop\CoursInformatique\IFT-2015\IFT2015-Devoir1\buisson.JSON 4" />
+>>>>>>> Stashed changes
       <method v="2">
         <option name="Make" enabled="true" />
       </method>

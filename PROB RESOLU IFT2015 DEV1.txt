@@ -1,0 +1,3 @@
+On faisait 	stack.pop() 
+
+au lieu de 	state=stack.pop() 
